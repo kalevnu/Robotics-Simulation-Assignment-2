@@ -36,7 +36,7 @@
 **처치 (바꾸는 요인 1개: 시범의 시간축)** — `assignment2/scripts/time_transform_hdf5.py compress --protect_signals`
 - annotate된 시범에서 idle step(팔 6축 action이 모두 0이고 그리퍼 명령이 그대로인 step)의 연속 구간을 **최대 3 step**만 남긴다.
 - 그리퍼 전환 전후 각 5 step, grasp 경계 전후 5 step, 마지막 10 step(성공 판정 대기)은 항상 유지한다.
-- 같은 압축 규칙을 사람 시범 파일에 적용해 그대로 재생(replay)하면 16/20만 성공(idle 5 step 허용 시 15/20)해서, 압축은 Mimic 소스(annotate된 파일) 층에 적용했다. Mimic은 물체 기준 목표 자세를 시뮬레이션에서 다시 실행하며, 생성된 시범은 각각 성공 판정을 통과해야 저장된다.
+- 같은 압축 규칙을 사람 시범 파일에 적용해 그대로 재생(replay)하면 16/20만 성공(idle 5 step 허용 시 15/20)해서, 압축은 Mimic 소스(annotate된 파일) 층에 적용했다(압축 소스 자체를 그대로 재생해도 15/20이다, 4절 참조). Mimic은 물체 기준 목표 자세를 시뮬레이션에서 다시 실행하며, 생성된 시범은 각각 성공 판정을 통과해야 저장된다.
 - 길이: 평균 1,083 → 666 step, 800 step 초과 80% → 5%.
 
 **고정 조건**: 같은 사람 시범 20개, Mimic 성공 500개(noise 0.01, 보간 15), 조교 BC-RNN config(LSTM 2×400, GMM 5, batch 100, 2,000 epoch), 학습 seed 101·111, 평가 seed 42·100회·horizon 800. 환경·성공 판정·종료 조건은 바꾸지 않았다.
