@@ -1,143 +1,76 @@
-![Isaac Lab](docs/source/_static/isaaclab.jpg)
+# 실습과제 #2 — Agibot Toy2Box 모방학습 성공률 향상 연구 (8조)
 
----
+> **한 줄 결론**: 우리 키보드 시범은 너무 느려서(평균 1,083 step) 평가 시간 한도(800 step)를 넘었고, BC 정책은 그 속도를 그대로 따라 해 시간이 모자랐다. 같은 시범 20개의 시간축만 압축하자 성공률이 **3.0 ± 0.0% → 27.0 ± 5.7%** 로 올랐다.
 
-# Isaac Lab
+이 저장소는 조교가 제공한 IsaacLab 수업 저장소에 우리 과제 결과물을 `assignment2/` 폴더로 더한 것이다. 수업 저장소의 원래 파일은 바꾸지 않았다(원래 README는 [`README_IsaacLab_original.md`](README_IsaacLab_original.md)).
 
-[![IsaacSim](https://img.shields.io/badge/IsaacSim-5.1.0-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
-[![Python](https://img.shields.io/badge/python-3.11-blue.svg)](https://docs.python.org/3/whatsnew/3.11.html)
-[![Linux platform](https://img.shields.io/badge/platform-linux--64-orange.svg)](https://releases.ubuntu.com/22.04/)
-[![Windows platform](https://img.shields.io/badge/platform-windows--64-orange.svg)](https://www.microsoft.com/en-us/)
-[![pre-commit](https://img.shields.io/github/actions/workflow/status/isaac-sim/IsaacLab/pre-commit.yaml?logo=pre-commit&logoColor=white&label=pre-commit&color=brightgreen)](https://github.com/isaac-sim/IsaacLab/actions/workflows/pre-commit.yaml)
-[![docs status](https://img.shields.io/github/actions/workflow/status/isaac-sim/IsaacLab/docs.yaml?label=docs&color=brightgreen)](https://github.com/isaac-sim/IsaacLab/actions/workflows/docs.yaml)
-[![License](https://img.shields.io/badge/license-BSD--3-yellow.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![License](https://img.shields.io/badge/license-Apache--2.0-yellow.svg)](https://opensource.org/license/apache-2-0)
+## 제출물 위치
+| 항목 | 위치 |
+|---|---|
+| 최종 가중치 (학습 seed 101) | `assignment2/weights/seed101/model_epoch_2000.pth` |
+| 최종 가중치 (학습 seed 111) | `assignment2/weights/seed111/model_epoch_2000.pth` |
+| 평가 명령 | [`assignment2/play_commands.txt`](assignment2/play_commands.txt) |
+| 상세 실험 보고 | [`assignment2/README.md`](assignment2/README.md) |
 
-
-Please note that this branch is currently under active development in preparation for the Isaac Lab 2.3.0 release.
-Some features may not be fully functional while we continue development.
-Additional features may depend on unreleased Isaac Sim features that will be available in Isaac Sim 5.1.0.
-
-
-**Isaac Lab** is a GPU-accelerated, open-source framework designed to unify and simplify robotics research workflows,
-such as reinforcement learning, imitation learning, and motion planning. Built on [NVIDIA Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html),
-it combines fast and accurate physics and sensor simulation, making it an ideal choice for sim-to-real
-transfer in robotics.
-
-Isaac Lab provides developers with a range of essential features for accurate sensor simulation, such as RTX-based
-cameras, LIDAR, or contact sensors. The framework's GPU acceleration enables users to run complex simulations and
-computations faster, which is key for iterative processes like reinforcement learning and data-intensive tasks.
-Moreover, Isaac Lab can run locally or be distributed across the cloud, offering flexibility for large-scale deployments.
-
-
-## Key Features
-
-Isaac Lab offers a comprehensive set of tools and environments designed to facilitate robot learning:
-
-- **Robots**: A diverse collection of robots, from manipulators, quadrupeds, to humanoids, with 16 commonly available models.
-- **Environments**: Ready-to-train implementations of more than 30 environments, which can be trained with popular reinforcement learning frameworks such as RSL RL, SKRL, RL Games, or Stable Baselines. We also support multi-agent reinforcement learning.
-- **Physics**: Rigid bodies, articulated systems, deformable objects
-- **Sensors**: RGB/depth/segmentation cameras, camera annotations, IMU, contact sensors, ray casters.
-
-
-## Getting Started
-
-### Documentation
-
-Our [documentation page](https://isaac-sim.github.io/IsaacLab) provides everything you need to get started, including
-detailed tutorials and step-by-step guides. Follow these links to learn more about:
-
-- [Installation steps](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html#local-installation)
-- [Reinforcement learning](https://isaac-sim.github.io/IsaacLab/main/source/overview/reinforcement-learning/rl_existing_scripts.html)
-- [Tutorials](https://isaac-sim.github.io/IsaacLab/main/source/tutorials/index.html)
-- [Available environments](https://isaac-sim.github.io/IsaacLab/main/source/overview/environments.html)
-
-
-## Isaac Sim Version Dependency
-
-Isaac Lab is built on top of Isaac Sim and requires specific versions of Isaac Sim that are compatible with each
-release of Isaac Lab. Below, we outline the recent Isaac Lab releases and GitHub branches and their corresponding
-dependency versions for Isaac Sim.
-
-| Isaac Lab Version             | Isaac Sim Version         |
-| ----------------------------- | ------------------------- |
-| `main` branch                 | Isaac Sim 4.5 / 5.0       |
-| `v2.3.X`                      | Isaac Sim 4.5 / 5.0 / 5.1 |
-| `v2.2.X`                      | Isaac Sim 4.5 / 5.0       |
-| `v2.1.X`                      | Isaac Sim 4.5             |
-| `v2.0.X`                      | Isaac Sim 4.5             |
-
-
-## Contributing to Isaac Lab
-
-We wholeheartedly welcome contributions from the community to make this framework mature and useful for everyone.
-These may happen as bug reports, feature requests, or code contributions. For details, please check our
-[contribution guidelines](https://isaac-sim.github.io/IsaacLab/main/source/refs/contributing.html).
-
-## Show & Tell: Share Your Inspiration
-
-We encourage you to utilize our [Show & Tell](https://github.com/isaac-sim/IsaacLab/discussions/categories/show-and-tell)
-area in the `Discussions` section of this repository. This space is designed for you to:
-
-* Share the tutorials you've created
-* Showcase your learning content
-* Present exciting projects you've developed
-
-By sharing your work, you'll inspire others and contribute to the collective knowledge
-of our community. Your contributions can spark new ideas and collaborations, fostering
-innovation in robotics and simulation.
-
-## Troubleshooting
-
-Please see the [troubleshooting](https://isaac-sim.github.io/IsaacLab/main/source/refs/troubleshooting.html) section for
-common fixes or [submit an issue](https://github.com/isaac-sim/IsaacLab/issues).
-
-For issues related to Isaac Sim, we recommend checking its [documentation](https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html)
-or opening a question on its [forums](https://forums.developer.nvidia.com/c/agx-autonomous-machines/isaac/67).
-
-## Support
-
-* Please use GitHub [Discussions](https://github.com/isaac-sim/IsaacLab/discussions) for discussing ideas,
-  asking questions, and requests for new features.
-* Github [Issues](https://github.com/isaac-sim/IsaacLab/issues) should only be used to track executable pieces of
-  work with a definite scope and a clear deliverable. These can be fixing bugs, documentation issues, new features,
-  or general updates.
-
-## Connect with the NVIDIA Omniverse Community
-
-Do you have a project or resource you'd like to share more widely? We'd love to hear from you!
-Reach out to the NVIDIA Omniverse Community team at OmniverseCommunity@nvidia.com to explore opportunities
-to spotlight your work.
-
-You can also join the conversation on the [Omniverse Discord](https://discord.com/invite/nvidiaomniverse) to
-connect with other developers, share your projects, and help grow a vibrant, collaborative ecosystem
-where creativity and technology intersect. Your contributions can make a meaningful impact on the Isaac Lab
-community and beyond!
-
-## License
-
-The Isaac Lab framework is released under [BSD-3 License](LICENSE). The `isaaclab_mimic` extension and its
-corresponding standalone scripts are released under [Apache 2.0](LICENSE-mimic). The license files of its
-dependencies and assets are present in the [`docs/licenses`](docs/licenses) directory.
-
-Note that Isaac Lab requires Isaac Sim, which includes components under proprietary licensing terms. Please see the [Isaac Sim license](docs/licenses/dependencies/isaacsim-license.txt) for information on Isaac Sim licensing.
-
-Note that the `isaaclab_mimic` extension requires cuRobo, which has proprietary licensing terms that can be found in [`docs/licenses/dependencies/cuRobo-license.txt`](docs/licenses/dependencies/cuRobo-license.txt).
-
-## Acknowledgement
-
-Isaac Lab development initiated from the [Orbit](https://isaac-orbit.github.io/) framework. We would appreciate if
-you would cite it in academic publications as well:
-
+평가 명령 예 (저장소 루트에서):
+```bash
+./isaaclab.sh -p scripts/imitation_learning/robomimic/play.py \
+  --task Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0 \
+  --checkpoint ./assignment2/weights/seed101/model_epoch_2000.pth \
+  --num_rollouts 100 --horizon 800 --seed 42 --headless
 ```
-@article{mittal2023orbit,
-   author={Mittal, Mayank and Yu, Calvin and Yu, Qinxi and Liu, Jingzhou and Rudin, Nikita and Hoeller, David and Yuan, Jia Lin and Singh, Ritvik and Guo, Yunrong and Mazhar, Hammad and Mandlekar, Ajay and Babich, Buck and State, Gavriel and Hutter, Marco and Garg, Animesh},
-   journal={IEEE Robotics and Automation Letters},
-   title={Orbit: A Unified Simulation Framework for Interactive Robot Learning Environments},
-   year={2023},
-   volume={8},
-   number={6},
-   pages={3740-3747},
-   doi={10.1109/LRA.2023.3270034}
-}
-```
+
+## 저장소 구조 (`assignment2/`)
+| 폴더 | 내용 |
+|---|---|
+| `weights/` | 최종 모델 2개(seed 101·111)와 학습 설정 `config.json` |
+| `datasets/` | 우리 사람 시범 20개 원본, annotate 파일(대조군 소스), 시간 압축 파일(처치군 소스) |
+| `figures/` | 발표용 그림 3장 |
+| `scripts/` | 우리가 추가한 스크립트(수업 스크립트 사본 + 새 스크립트). 순서는 [`scripts/README.md`](assignment2/scripts/README.md) |
+| `play_commands.txt` | 최종 모델 평가 명령 2개 |
+| `README.md` | 진단·가설·설계·결과·한계 상세 |
+
+## 결과 (평가 seed 42, 100회, horizon 800, epoch 2000)
+| 조건 | seed 101 | seed 111 | 평균 ± 표준편차 |
+|---|---|---|---|
+| 조교 시범 20개 (baseline 재현, 참고) | 35 | 44 | 39.5 ± 6.4% (조교 공지 26%) |
+| 우리 시범 20개 원본 (대조군) | 3 | 3 | 3.0 ± 0.0% |
+| 우리 시범 20개 시간 압축 (처치군) | 23 | 31 | **27.0 ± 5.7%** |
+
+- 트럭에 닿은 비율 41% → 81%, 닿기까지 걸린 step 중앙값 515·589 → 442·422.
+- 결과 보기 전에 정한 판정 기준(평균 ≥ 14%, 각 seed ≥ 9%, 도달 시간 또는 도달률 개선)을 모두 충족 → **가설 지지**.
+
+![성공률](assignment2/figures/fig_a_success_rate.png)
+![결과 유형](assignment2/figures/fig_b_outcome_stages.png)
+![시범 길이와 도달 시점](assignment2/figures/fig_c_length_and_reach.png)
+
+## 재현 절차
+조교 환경(conda env `lerobot-arena`, 저장소 루트)을 기준으로 한다. 시간은 이 과제를 실행한 서버(RTX 6000 Ada 1장) 기준.
+
+| 단계 | 스크립트 | 예상 시간 |
+|---|---|---|
+| 1. annotate (20개) | `assignment2/scripts/annotate_keep_nosignal.py --auto` | 약 30분 |
+| 2. grasp 경계 2개 규칙 지정 | `assignment2/scripts/set_rule_grasp_boundary.py --dist 0.06` | 1분 미만 |
+| 3. 시간 압축 (처치군 소스) | `assignment2/scripts/time_transform_hdf5.py compress --protect_signals` | 1분 미만 |
+| 4. Mimic 생성 (성공 500, 조교 명령과 동일) | `scripts/imitation_learning/isaaclab_mimic/generate_dataset.py` | 조건당 약 3–4시간 |
+| 5. BC 학습 (seed 101·111) | `assignment2/scripts/train_seeded.py --seed 101` / `111` | 모델당 약 40분 |
+| 6. 평가 | `assignment2/play_commands.txt` (기본 play.py) | 모델당 약 1.5시간 |
+
+1–3단계 결과물은 `assignment2/datasets/`에 이미 들어 있어서, 4단계부터 시작해도 된다. Mimic 생성 결과(조건당 274–383 MB)는 GitHub 용량 제한 때문에 넣지 않았다. 단계별 명령은 [`assignment2/README.md`](assignment2/README.md) 5절.
+
+## 한계 (요약)
+- 압축한 소스 시범을 그대로 재생하면 15/20만 성공한다(원본 20/20). 생성 데이터의 물리적 타당성은 Mimic 생성 수용률과 생성 시범 각각의 성공 판정에 근거한다.
+- 학습 seed 2개, 평가 seed 1개. 대조·처치 rollout은 짝지어진 비교가 아니다.
+- 시범 2개는 grasp 경계를 규칙으로 지정했다.
+- 압축 후에도 70% 정도가 시간 초과이며, 병목은 운반·배치 단계로 옮겨갔다(향후 과제).
+
+## 역할 분담
+| 역할 | 이름 |
+|---|---|
+| 시범 수집 |  |
+| 실험 설계·실행 |  |
+| 결과 분석 |  |
+| 발표 자료 |  |
+
+## 변경 이력
+- 2026-10-28: 최종 가중치 2개, 시범·소스 데이터, 스크립트, 그림, 보고서 첫 업로드. 추가 평가 seed 7, 실패 분류 영상 검증, horizon 1,600 진단 결과는 이후 추가 예정.

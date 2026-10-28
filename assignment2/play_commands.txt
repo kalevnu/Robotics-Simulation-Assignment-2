@@ -1,0 +1,12 @@
+# 최종 모델 2개 평가 명령 (저장소 루트에서 실행, conda activate lerobot-arena)
+# 학습 seed 101 모델
+./isaaclab.sh -p scripts/imitation_learning/robomimic/play.py \
+  --task Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0 \
+  --checkpoint ./assignment2/weights/seed101/model_epoch_2000.pth \
+  --num_rollouts 100 --horizon 800 --seed 42 --headless
+
+# 학습 seed 111 모델
+./isaaclab.sh -p scripts/imitation_learning/robomimic/play.py \
+  --task Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0 \
+  --checkpoint ./assignment2/weights/seed111/model_epoch_2000.pth \
+  --num_rollouts 100 --horizon 800 --seed 42 --headless
